@@ -1,23 +1,24 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 #class UserGroup(models.Model):
 
-class Stars(models.Model):
+class Star(models.Model):
     star_caster = models.ForeignKey(User)
-    stars       = models.IntegerField()
+    stars = models.IntegerField()
 
-class Posts(models.Model):
-    post_text    = models.CharField(1000)
-    post_caster  = models.ForeignKey(User)
-    post_date    = models.DateTimeField()
-    post_stars   = models.ForeignKey(Stars)
-    post_privacy = models.IntegerField()
+class Post(models.Model):
+    content = models.TextField()
+    user = models.ForeignKey(User)
+    publushed_date = models.DateTimeField(default=datetime.datetime.now())
+    is_published = models.IntegerField()
+    saved_on = models.DateTimeField(auto_now_add=True)
 
-class Comments(models.Model):
-    comment_text    = models.CharField(max_length=1000)
-    comment_post    = models.ForeignKey(Posts)
-    comment_date    = models.DateTimeField()
-    comment_caster  = models.ForeignKey(User)
-    comment_stars   = models.ForeignKey(Stars)
+class Comment(models.Model):
+    comment_text = models.CharField(max_length=1000)
+    comment_post = models.ForeignKey(Post)
+    comment_date = models.DateTimeField()
+    comment_caster = models.ForeignKey(User)
+    comment_stars = models.ForeignKey(Star)
     comment_privacy = models.IntegerField()

@@ -1,6 +1,24 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.views.generic import View
 
+from forms import AddPostForm
 # Create your views here.
+
+class MainIndex(View):
+    #@method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(MainIndex, self).dispatch(*args, **kwargs)
+
+    def __init__(self):
+        pass
+
+    def get(self, request):
+        form = AddPostForm()
+        return render(request,'DailyDiary/add_post.html',{'form':form})
+
 
 class SignUp:
     def __init__(self):
@@ -45,3 +63,7 @@ class DeletePost:
 class DeleteComment:
     def __init__(self):
         pass
+
+
+def posted(request):
+    return HttpResponse(request)
